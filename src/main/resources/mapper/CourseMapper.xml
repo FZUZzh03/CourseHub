@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzh.coursehub.mapper.CourseMapper">
+    <select id="getCourseList" resultType="com.zzh.coursehub.entity.vo.CourseListVO">
+        SELECT
+            c.id,
+            c.course_name,
+            u.username as teacherName,
+            c.max_num,
+            c.selected_num,
+            (c.max_num-c.selected_num) as remainNum,
+            c.classroom
+        From
+            course c
+        LEFT JOIN `user` u ON c.teacher_id = u.id
+        WHERE c.is_deleted = 0
+        ORDER BY c.id DESC
+            LIMIT #{offset}, #{pageSize}
+    </select>
+
+</mapper>

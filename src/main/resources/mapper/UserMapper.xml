@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzh.coursehub.mapper.UserMapper">
+
+    <select id="getAll" resultType="com.zzh.coursehub.entity.vo.UserInfoVO" >
+        SELECT id, username, name, role, age
+        FROM user
+        WHERE is_deleted = 0
+        ORDER BY FIELD(role, 'teacher', 'student'), username ASC
+        LIMIT
+            #{pageDTO.pageSize} OFFSET #{pageDTO.offset}
+    </select>
+
+    <select id="countAll" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM user where is_deleted = 0
+    </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzh.coursehub.mapper.LessonMapper">
+    <select id="getStudentsByCourseId" resultType="com.zzh.coursehub.entity.vo.StudentVO">
+        SELECT
+            u.id,
+            u.username,
+            u.name
+        From
+            lesson l
+        LEFT JOIN `user` u ON u.id = l.student_id
+        WHERE l.is_deleted = 0 AND l.course_id = #{id}
+        ORDER BY u.id DESC
+            LIMIT #{pageDTO.offset}, #{pageDTO.pageSize}
+    </select>
+
+    <select id="getLessonByUserId" resultType="com.zzh.coursehub.entity.pojo.Lesson">
+        SELECT
+            id,
+            course_id
+        FROM
+            lesson
+        WHERE student_id  = #{userId} AND  is_deleted = 0
+        ORDER BY id DESC
+            LIMIT #{pageDTO.offset}, #{pageDTO.pageSize}
+    </select>
+</mapper>
